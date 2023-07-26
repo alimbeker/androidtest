@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -136,9 +137,10 @@ fun TextScreen() {
         ) {
             ImageResource(id = R.drawable.nature)
 
+            val openDialog = remember { mutableStateOf(false) }
 
             Button(
-                onClick = {},
+                onClick = { openDialog.value = true },
                 modifier = Modifier.padding(8.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.primary,
@@ -148,6 +150,8 @@ fun TextScreen() {
             ) {
                 Text("Press Me")
             }
+            if(openDialog.value)
+                Text("Hello")
 
 
             Row {
@@ -157,6 +161,7 @@ fun TextScreen() {
         }
     }
 }
+
 
 @Composable
 fun ImageResource(id: Int) {
