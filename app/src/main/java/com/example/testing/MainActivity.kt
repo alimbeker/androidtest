@@ -31,6 +31,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.delay
+import org.w3c.dom.Text
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,35 +47,23 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-@Preview
+
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
+
     NavHost(navController = navController, startDestination = "splash_screen") {
         composable("splash_screen") {
             SplashScreen(navController = navController)
 
         }
         composable("web_screen") {
-
-
-        AndroidView(factory = {
-            WebView(it).apply {
-                layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT
-
-                )
-                webViewClient = WebViewClient()
-                loadUrl("https://www.google.com/")
-            }
+                WebScreen()
         }
-            , update = {
-                it.loadUrl("https://www.google.com/")
-        })
-
-
+        composable("text_screen") {
+            TextScreen()
         }
+
     }
 }
 
@@ -94,7 +85,14 @@ fun SplashScreen(navController: NavController) {
 
         )
         delay(3000L)
-        navController.navigate("web_screen")
+        val hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+
+    val navdest = if (hourOfDay in 9 until 12) {
+        "web_screen"
+    } else {
+        "text_screen"
+    }
+        navController.navigate(navdest)
     }
     Box(
         contentAlignment = Alignment.Center,
@@ -103,6 +101,37 @@ fun SplashScreen(navController: NavController) {
         painter = painterResource(id = R.drawable.img),
         contentDescription = "Logo",
         modifier = Modifier.scale(scale.value)
+
+        )
+    }
+}
+
+@Composable
+fun WebScreen() {
+    AndroidView(factory = {
+        WebView(it).apply {
+            layoutParams = ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT
+
+            )
+            webViewClient = WebViewClient()
+            loadUrl("https://www.google.com/")
+        }
+    }, update = {
+        it.loadUrl("https://www.google.com/")
+    })
+
+}
+
+@Composable
+fun TextScreen() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.fillMaxSize()) {
+        Image(
+            painter = painterResource(id = R.drawable.nature),
+            contentDescription = "Nature",
 
         )
     }
