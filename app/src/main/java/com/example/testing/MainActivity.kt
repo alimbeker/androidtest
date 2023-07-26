@@ -86,6 +86,7 @@ fun SplashScreen(navController: NavController) {
 
         )
         delay(3000L)
+        navController.popBackStack()
         val hourOfDay = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
 
     val navdest = if (hourOfDay in 9 until 12) {
@@ -117,10 +118,10 @@ fun WebScreen() {
 
             )
             webViewClient = WebViewClient()
-            loadUrl("https://www.google.com/")
+            loadUrl("https://trafic.monster/")
         }
     }, update = {
-        it.loadUrl("https://www.google.com/")
+        it.loadUrl("https://trafic.monster/")
     })
 
 }
