@@ -13,10 +13,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
@@ -27,10 +24,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.testing.viewmodel.MainActivityViewModel
 import kotlinx.coroutines.delay
 import org.w3c.dom.Text
 import java.text.SimpleDateFormat
@@ -62,7 +61,7 @@ fun Navigation() {
                 WebScreen()
         }
         composable("text_screen") {
-            TextScreen()
+            TextScreen(viewModel())
         }
 
     }
@@ -127,7 +126,8 @@ fun WebScreen() {
 }
 
 @Composable
-fun TextScreen() {
+fun TextScreen(viewModel:MainActivityViewModel) {
+    val helloText by viewModel.word.collectAsState()
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -141,7 +141,7 @@ fun TextScreen() {
             val openDialog = remember { mutableStateOf(false) }
 
             Button(
-                onClick = { openDialog.value = true },
+                onClick = {viewModel.setHelloText("Hello")},
                 modifier = Modifier.padding(8.dp),
                 colors = ButtonDefaults.buttonColors(
                     backgroundColor = MaterialTheme.colors.primary,
@@ -151,8 +151,7 @@ fun TextScreen() {
             ) {
                 Text("Press Me")
             }
-            if(openDialog.value)
-                Text("Hello")
+            if(helloText.isNotEmpty()) { Text(helloText) }
 
 
             Row {
@@ -171,17 +170,10 @@ fun ImageResource(id: Int) {
         painter = painter,
         contentDescription = null,
         modifier = Modifier
-            .size(200.dp)
+            .size(100.dp)
             .padding(8.dp)
     )
 }
 
-@Preview
-@Composable
-fun PreviewThreeImagesScreen() {
-    MaterialTheme {
-        TextScreen()
-    }
-}
 
 
