@@ -1,7 +1,13 @@
 buildscript {
     ext {
         compose_ui_version = '1.1.1'
-        nav_version = "2.5.3"
+        nav_version = '2.5.3'
+        coroutinesVersion = '1.4.3'
+        //MVVM
+        retrofit_version = '2.9.0'
+        lifecycle_version = '2.6.1'
+        coil_version = '2.4.0'
+        okhttp3_version = '4.11.0'
     }
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
