@@ -30,15 +30,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.testing.viewmodel.MainActivityViewModel
+import com.google.firebase.perf.FirebasePerformance
+import com.google.firebase.perf.metrics.Trace
 import kotlinx.coroutines.delay
 import org.w3c.dom.Text
 import java.text.SimpleDateFormat
 import java.util.*
 
 class MainActivity : ComponentActivity() {
+    private lateinit var appStartTrace: Trace
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        appStartTrace = FirebasePerformance.getInstance().newTrace("app_start")
+        appStartTrace.start()
         setContent {
             Surface(color = Color( 0x00FF_0000), modifier = Modifier.fillMaxSize()) {
 
@@ -46,6 +50,7 @@ class MainActivity : ComponentActivity() {
 
             }
         }
+        appStartTrace.stop()
 
     }
 }
