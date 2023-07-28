@@ -38,6 +38,7 @@ import java.util.*
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             Surface(color = Color( 0x00FF_0000), modifier = Modifier.fillMaxSize()) {
 
@@ -45,6 +46,7 @@ class MainActivity : ComponentActivity() {
 
             }
         }
+
     }
 }
 
